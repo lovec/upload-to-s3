@@ -6,7 +6,7 @@ Python script for uploading files to amazon S3 storage. Uploads recursively from
 Use pip to install dependencies
 
 ```
-pip install
+pip install -r requirements.txt
 ```
 
 Create `config.yaml` from template `config-template.yaml` and fill the configuration variables

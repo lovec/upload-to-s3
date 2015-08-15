@@ -1,4 +1,4 @@
-from boto.s3.connection import S3Connection
+from boto.s3.connection import S3Connection, S3ResponseError
 from os.path import isfile, join, isdir
 from os import listdir
 import yaml, re, os, sys
@@ -48,8 +48,11 @@ def should_upload_file(filepath):
 
 def upload_file_to_s3(path, file):
     print('Uploading file', file)
-    key = bucket.new_key(file)
-    key.set_contents_from_filename(path + file, cb=percent_cb, num_cb=10)
+    try:
+        key = bucket.new_key(file)
+        key.set_contents_from_filename(path + file, cb=percent_cb, num_cb=10)
+    except S3ResponseError:
+        print('Unexpected error:', sys.exc_info()[0])
 
 
 def upload_file(path, file):
