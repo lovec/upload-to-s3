@@ -47,6 +47,10 @@ def should_upload_file(filepath):
 
 
 def upload_file_to_s3(path, file):
+    if key_exists(file):
+        print('File already uploaded', file)
+        return False
+
     print('Uploading file', file)
     try:
         key = bucket.new_key(file)
@@ -60,6 +64,13 @@ def upload_file(path, file):
         upload_file_to_s3(path, file)
     else:
         print('Not uploading: ', file)
+
+
+def key_exists(key):
+    key = bucket.get_key(key)
+    if not key:
+        return False
+    return True
 
 
 def scan_dir(basepath, filepath):
