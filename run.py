@@ -47,12 +47,13 @@ def should_upload_file(filepath):
 
 
 def upload_file_to_s3(path, file):
-    if key_exists(file):
-        print('File already uploaded', file)
-        return False
-
-    print('Uploading file', file)
     try:
+        if key_exists(file):
+            print('File already uploaded', file)
+            return False
+
+        print('Uploading file', file)
+
         key = bucket.new_key(file)
         key.set_contents_from_filename(path + file, cb=percent_cb, num_cb=10)
     except S3ResponseError:
