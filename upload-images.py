@@ -40,7 +40,7 @@ bucket = connection.get_bucket(config['s3']['buckets']['images'])
 
 def should_upload_file(filepath):
     # filename containing w123 which stands for width and number of pixels
-    if re.search('w\d{3}', filepath) or filepath in ignore_files:
+    if re.search('w\d{3}', filepath) or filepath in ignore_files  or re.search('temp', filepath):
         return False
     else:
         return True
@@ -57,7 +57,9 @@ def upload_file_to_s3(path, file):
         key = bucket.new_key(file)
         key.set_contents_from_filename(path + file, cb=percent_cb, num_cb=10)
     except S3ResponseError:
-        print('Unexpected error:', sys.exc_info()[0])
+        print('Cannot upload the file:', sys.exc_info()[0])
+    except:
+	print('Unknown error:', sys.exc_info()[0])
 
 
 def upload_file(path, file):
