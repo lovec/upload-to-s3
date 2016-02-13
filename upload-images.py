@@ -35,7 +35,7 @@ def percent_cb(complete, total):
 config = load_config()
 connection = S3Connection(config['s3']['key_id'], config['s3']['access_key'], host=config['s3']['host'])
 
-bucket = connection.get_bucket(config['s3']['bucket'])
+bucket = connection.get_bucket(config['s3']['buckets']['images'])
 
 
 def should_upload_file(filepath):
